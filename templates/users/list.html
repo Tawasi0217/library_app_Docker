@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>利用者一覧</h1>
+  <form method="get">
+    <label for="q">名前またはメールで検索</label>
+    <input id="q" name="q" value="{{ keyword }}">
+    <button type="submit">フィルター</button>
+  </form>
+  <a class="button" href="{{ url_for('users.user_create') }}">利用者を登録</a>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>名前</th><th>メール</th><th>貸出数</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr>
+          <td>{{ user.user_id }}</td>
+          <td>{{ user.name }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.borrows|length }}</td>
+          <td class="actions">
+            <a href="{{ url_for('users.user_edit', user_id=user.user_id) }}">編集</a>
+            <a href="{{ url_for('users.user_delete', user_id=user.user_id) }}">削除</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="5">利用者がいません。</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

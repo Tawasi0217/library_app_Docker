@@ -1,0 +1,15 @@
+.git
+.agents
+.codex
+.codex_spreadsheet_work
+__pycache__
+*.py[cod]
+instance
+*.db
+*.zip
+deliverable_*
+cmd
+internal
+sample_image
+go.mod
+go.sum

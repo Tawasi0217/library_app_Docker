@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>本一覧</h1>
+  <form method="get">
+    <label for="genre">ジャンルで絞り込み</label>
+    <select name="genre" id="genre">
+      <option value="">すべて</option>
+      {% for genre in genres %}
+        <option value="{{ genre }}" {% if genre == selected_genre %}selected{% endif %}>{{ genre }}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">フィルター</button>
+  </form>
+  <a class="button" href="{{ url_for('books.book_create') }}">本を登録</a>
+  <table>
+    <thead>
+      <tr><th>ID</th><th>タイトル</th><th>著者</th><th>ジャンル</th><th>在庫</th><th>状態</th><th>操作</th></tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <td>{{ book.book_id }}</td>
+          <td>{{ book.title }}</td>
+          <td>{{ book.author }}</td>
+          <td>{{ book.genre }}</td>
+          <td>{{ book.stock }}</td>
+          <td>{{ book.stock|stock_status }}</td>
+          <td class="actions">
+            <a href="{{ url_for('books.book_edit', book_id=book.book_id) }}">編集</a>
+            <a href="{{ url_for('books.book_delete', book_id=book.book_id) }}">削除</a>
+          </td>
+        </tr>
+      {% else %}
+        <tr><td colspan="7">本がありません。</td></tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}

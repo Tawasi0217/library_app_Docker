@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% from "macros.html" import render_field %}
+
+{% block content %}
+  <h1>ログイン</h1>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    {{ render_field(form.username) }}
+    {{ render_field(form.password) }}
+    {{ form.submit() }}
+  </form>
+{% endblock %}

@@ -1,0 +1,6 @@
+.cache/
+__pycache__/
+*.py[cod]
+instance/
+*.db
+.codex_spreadsheet_work/

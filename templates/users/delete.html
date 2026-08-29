@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>利用者の削除</h1>
+  <p>{{ user.name }} を削除しますか。</p>
+  <form method="post">
+    {{ form.hidden_tag() }}
+    <p>削除するには DELETE と入力してください。</p>
+    <label for="{{ form.confirm.id }}">{{ form.confirm.label.text }}</label>
+    {{ form.confirm() }}
+    {% for error in form.confirm.errors %}
+      <p class="errors">{{ error }}</p>
+    {% endfor %}
+    {{ form.submit() }}
+    <a class="button" href="{{ url_for('users.user_list') }}">戻る</a>
+  </form>
+{% endblock %}
