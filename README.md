@@ -1,31 +1,19 @@
-# Library App Docker
+# 図書館貸出管理アプリ
 
-Flask + SQLAlchemy library loan app packaged for Docker Swarm.
+Flask 2.3.2 / Python 3.10 を使用した図書・利用者・貸出管理アプリです。『Flask本格入門』のルーティング・Jinja2・Blueprint・フォーム・バリデーション・ORM・認証・PRGパターンに沿う構成です。提供されたPDFは第5章途中（150ページ）までで、それ以降の構成は教科書の目次と既存コードに基づいています。
 
-## Build
+## 起動（Docker Compose）
 
-```powershell
-docker build -t library-loan-app:latest .
-```
+1. `.env.example` を `.env` にコピーし、SECRET_KEY、ADMIN_PASSWORD を必ず変更する。
+2. `docker compose up --build -d`
+3. `http://localhost:5000/books` を開く。管理画面には環境変数の管理者アカウントでログインする。
 
-## Deploy With Docker Swarm
+データは `library_data` volume に永続化されます。サンプルデータが必要なときだけ SEED_DEMO_DATA=1 を指定してください。
 
-```powershell
-docker swarm init
-docker stack deploy -c docker-stack.yml library
-```
+## Docker Swarm
 
-Open:
+`LIBRARY_IMAGE` に各Swarmノードからpull可能なレジストリイメージを設定して `docker stack deploy -c docker-stack.yml library` を実行してください。ローカルイメージだけでは別ノードへの配置に失敗します。SQLiteのため単一レプリカで運用し、同一ボリュームが配置先ノードに存在することを確認してください。SECRET_KEYとADMIN_PASSWORDは環境変数に平文で渡されるため、本番ではSecretsによる管理を推奨します。
 
-```text
-http://127.0.0.1:5000/books
-```
+## ローカル開発
 
-The container initializes the SQLite database on startup by running
-`python init_db.py`. SQLite data is stored in the `library_data` named volume.
-
-For local testing without Swarm:
-
-```powershell
-docker compose up --build
-```
+Python 3.10 の仮想環境で `pip install -r requirements.txt`、SECRET_KEYとADMIN_PASSWORDを設定し、`python init_db.py`、`flask --app app run` で起動します。

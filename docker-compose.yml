@@ -1,17 +1,16 @@
-version: "3.8"
-
 services:
   web:
     build: .
     image: library-loan-app:latest
     environment:
-      SECRET_KEY: change-this-secret-key
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in .env}
+      ADMIN_USERNAME: ${ADMIN_USERNAME:-admin}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:?Set ADMIN_PASSWORD in .env}
       DATABASE_URL: sqlite:////app/instance/library.db
       GUNICORN_WORKERS: "2"
     ports:
       - "5000:5000"
     volumes:
       - library_data:/app/instance
-
 volumes:
   library_data:
