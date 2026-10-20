@@ -2,9 +2,7 @@ name: library-loan-app
 channels:
   - conda-forge
 dependencies:
-  - python=3.12
-  - flask
-  - flask-sqlalchemy
-  - flask-wtf
-  - gunicorn
-  - werkzeug
+  - python=3.10
+  - pip
+  - pip:
+      - -r requirements.txt

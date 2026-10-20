@@ -1,27 +1,15 @@
 {% extends "base.html" %}
-
 {% block content %}
-  <h1>貸出中一覧</h1>
-  <table>
-    <thead>
-      <tr><th>ID</th><th>利用者</th><th>本</th><th>貸出日時</th><th>操作</th></tr>
-    </thead>
-    <tbody>
-      {% for borrow in borrows %}
-        <tr>
-          <td>{{ borrow.borrows_id }}</td>
-          <td>{{ borrow.user.name }}</td>
-          <td>{{ borrow.book.title }}</td>
-          <td>{{ borrow.borrowed_at|datetime_jp }}</td>
-          <td>
-            <form action="{{ url_for('borrows.borrow_return', borrows_id=borrow.borrows_id) }}" method="post">
-              <button type="submit">返却</button>
-            </form>
-          </td>
-        </tr>
-      {% else %}
-        <tr><td colspan="5">貸出中の本はありません。</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<h1>貸出中一覧</h1>
+<table>
+<thead><tr><th>ID</th><th>利用者</th><th>本</th><th>貸出日時</th><th>操作</th></tr></thead>
+<tbody>
+{% for borrow in borrows %}
+<tr>
+<td>{{ borrow.borrows_id }}</td><td>{{ borrow.user.name }}</td><td>{{ borrow.book.title }}</td>
+<td>{{ borrow.borrowed_at|datetime_jp }}</td>
+<td><form action="{{ url_for('borrows.borrow_return', borrows_id=borrow.borrows_id) }}" method="post"><input type="hidden" name="csrf_token" value="{{ csrf_token() }}"><button type="submit">返却</button></form></td>
+</tr>
+{% else %}<tr><td colspan="5">貸出中の本はありません。</td></tr>{% endfor %}
+</tbody></table>
 {% endblock %}
